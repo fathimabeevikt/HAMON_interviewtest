@@ -15,7 +15,7 @@ class StudentRepository {
     if (response.statusCode == 200) {
       var data = convert.jsonDecode(response.body);
       var studentsDto = StudentsDto.fromJson(data);
-      studentslist = studentsDto.studentsList;
+      studentslist = studentsDto.students;
     }
     return studentslist;
   }

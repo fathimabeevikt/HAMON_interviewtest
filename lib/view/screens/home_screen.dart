@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:interview_test/repositories/classrooms_repository.dart';
 import 'package:interview_test/repositories/students_repository.dart';
+import 'package:interview_test/repositories/subjects_repository.dart';
 import 'package:interview_test/view/screens/classroom_list.dart';
 import 'package:interview_test/view/screens/subject_List.dart';
 import 'package:interview_test/view/screens/sutdent_list.dart';
@@ -35,19 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text("Students"),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async{
+                var subjects = await SubjectRepository.fetchSubjects();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SubjectList()),
+                  MaterialPageRoute(builder: (context) => SubjectList(listofSubjects:subjects ,)),
                 );
               },
               child: Text("Subjects"),
             ),
             ElevatedButton(
-              onPressed: () {
+              
+              onPressed: () async{
+                var classrooms = await ClassroomRepository.fetchClassrooms();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ClassroomList()),
+                  MaterialPageRoute(builder: (context) => ClassroomList(listofClassrooms:classrooms ,)),
                 );
               },
               child: Text("Class Rooms"),
