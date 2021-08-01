@@ -19,4 +19,12 @@ class SubjectRepository {
     }
     return subjectslist;
   }
+   static Future<Subject> fetchSubjectDetails(int id) async {
+    Map<String, String> queryparams = {'api_key': 'D5351'};
+    var response = await http.get(new Uri.https(
+        ApiUrls.BASE_URL, ApiUrls.SUBJECTS + id.toString(), queryparams));
+    var data = convert.jsonDecode(response.body);
+    var subject = Subject.fromJson(data);
+    return subject;
+  }
 }

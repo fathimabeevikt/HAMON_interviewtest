@@ -3,7 +3,7 @@ import 'package:interview_test/repositories/classrooms_repository.dart';
 import 'package:interview_test/repositories/students_repository.dart';
 import 'package:interview_test/repositories/subjects_repository.dart';
 import 'package:interview_test/view/screens/classroom_list.dart';
-import 'package:interview_test/view/screens/subject_List.dart';
+import 'package:interview_test/view/screens/subject_list.dart';
 import 'package:interview_test/view/screens/sutdent_list.dart';
 
 class HomeScreen extends StatefulWidget {

@@ -19,4 +19,12 @@ class StudentRepository {
     }
     return studentslist;
   }
+   static Future<Student> fetchStudentDetails(int id) async {
+    Map<String, String> queryparams = {'api_key': 'D5351'};
+    var response = await http.get(new Uri.https(
+        ApiUrls.BASE_URL, ApiUrls.STUDENTS + id.toString(), queryparams));
+    var data = convert.jsonDecode(response.body);
+    var student = Student.fromJson(data);
+    return student;
+  }
 }

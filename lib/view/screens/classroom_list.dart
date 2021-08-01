@@ -34,14 +34,15 @@ class _ClassroomListState extends State<ClassroomList> {
                         style: TextStyle(color: Colors.green, fontSize: 15),
                       ),
                       TextButton(
-                          onPressed: () async{
-                            var classroomdetails = await ClassroomRepository.fetchClassroomDetails(
-                                widget.listofClassrooms[index].id);
+                          onPressed: () async {
+                            var classroomdetails =
+                                await ClassroomRepository.fetchClassroomDetails(
+                                    widget.listofClassrooms[index].id);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      ClassroomDetails(details:classroomdetails )),
+                                  builder: (context) => ClassroomDetails(
+                                      details: classroomdetails)),
                             );
                           },
                           child: Text("View details"))
