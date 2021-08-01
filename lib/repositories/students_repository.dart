@@ -46,7 +46,7 @@ class StudentRepository {
     if (response.statusCode == 200) {}
   }
 
-  static Future<List<Registration>> FetchAllRegistrations() async {
+  static Future<List<Registration>> fetchAllRegistrations() async {
     List<Registration> registrations = [];
     Map<String, String> queryparams = {'api_key': 'D5351'};
     var response = await http.get(
@@ -57,5 +57,15 @@ class StudentRepository {
       registrations = registrationDto.registrations;
     }
     return registrations;
+  }
+
+  static Future<bool> deleteStudentFromClassRoom(int registrationId) async {
+    Map<String, String> queryparams = {'api_key': 'D5351'};
+    var response = await http.delete(new Uri.https(ApiUrls.BASE_URL,
+        ApiUrls.REGISTRATION + registrationId.toString(), queryparams));
+    if (response.statusCode == 200) {
+      return true;
+    }
+    return false;
   }
 }

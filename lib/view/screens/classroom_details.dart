@@ -32,14 +32,17 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
   int? selectedStudentId;
   List<Student> _listofstudents = [];
   List<Registration> _listofregistrations = [];
+  Map studentIdsAndRegistrationIds = new Map();
 
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     _subjects = SubjectRepository.fetchSubjects();
     _students = StudentRepository.fetchStudents();
-    _registrations = StudentRepository.FetchAllRegistrations();
+    _registrations = StudentRepository.fetchAllRegistrations();
+
     super.initState();
   }
 
@@ -57,6 +60,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
 
     for (var item in _listofregistrations) {
       needTodisplay.add(item.student);
+      studentIdsAndRegistrationIds.putIfAbsent(item.student, () => item.id);
     }
 
     _listofstudents = widget.allStudents
@@ -70,6 +74,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
     double kHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+        key: _scaffoldkey,
         appBar: AppBar(
           backgroundColor: kPrimaryColor,
           title: Text("Details"),
@@ -192,7 +197,6 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                                               ? Text('Choose Subject')
                                               : Text(
                                                   _subjectdropDownValue,
-                                                  
                                                 ),
                                           isExpanded: true,
                                           iconSize: 30.0,
@@ -237,7 +241,9 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                                         style: TextButton.styleFrom(
                                             primary: kColorgreen),
                                         onPressed: () {},
-                                        child: Text("Assign"))
+                                        child: widget.details.subject == ''
+                                            ? Text("Assign Subject")
+                                            : Text("Update Subject"))
                                   ],
                                 ),
                               ],
@@ -282,11 +288,10 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                                               ? Text('Choose Subject')
                                               : Text(
                                                   _studentdropDownValue,
-                                                 
                                                 ),
                                           isExpanded: true,
                                           iconSize: 30.0,
-                                         // style: TextStyle(color: Colors.blue),
+                                          // style: TextStyle(color: Colors.blue),
                                           items: widget.allStudents.map(
                                             (val) {
                                               return DropdownMenuItem<String>(
@@ -328,10 +333,14 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                                           await StudentRepository
                                               .assignStudentToClassRoom(
                                                   selectedStudentId!,
-                                                  int.parse(selectedSubjectId));
+                                                  selectedSubjectId == ''
+                                                      ? int.parse(widget
+                                                          .details.subject!)
+                                                      : int.parse(
+                                                          selectedSubjectId));
                                           loadEnrolledStudents();
                                         },
-                                        child: Text("Assign")),
+                                        child: Text("Enroll")),
                                   ],
                                 )
                               : Container(),
@@ -361,6 +370,36 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                                                         _listofstudents[index]
                                                             .name,
                                                       ),
+                                                      IconButton(
+                                                        onPressed: () async {
+                                                          var deleteResult = await StudentRepository
+                                                              .deleteStudentFromClassRoom(
+                                                                  studentIdsAndRegistrationIds[
+                                                                      _listofstudents[
+                                                                              index]
+                                                                          .id]);
+                                                          if (deleteResult) {
+                                                            _scaffoldkey
+                                                                .currentState!
+                                                                .showSnackBar(
+                                                                    new SnackBar(
+                                                                        content:
+                                                                            new Text("Deleted Successfully")));
+                                                          }
+                                                          setState(() {
+                                                            _listofstudents.removeWhere(
+                                                                (element) =>
+                                                                    element
+                                                                        .id ==
+                                                                    _listofstudents[
+                                                                            index]
+                                                                        .id);
+                                                          });
+                                                          //loadEnrolledStudents();
+                                                        },
+                                                        icon: Icon(Icons.delete,
+                                                            color: Colors.red),
+                                                      )
                                                       // TextButton(
                                                       //     onPressed: () async {
                                                       //       var subjectdetails =
