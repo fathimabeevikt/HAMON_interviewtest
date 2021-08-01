@@ -22,13 +22,14 @@ class _StudentListState extends State<StudentList> {
       body: ListView.builder(
           itemCount: widget.listofStudents.length,
           itemBuilder: (BuildContext context, int index) {
-            index = index + 1;
+           int number = index + 1;
             return ListTile(
                 trailing: Text(
                   widget.listofStudents[index].name,
                   style: TextStyle(color: Colors.green, fontSize: 15),
                 ),
-                title: Text("$index"));
+                title: Text("$number"));
+                
           }),
     );
   }
