@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:interview_test/model/classroom.dart';
 
 import 'package:http/http.dart' as http;
@@ -27,5 +29,21 @@ class ClassroomRepository {
     var data = convert.jsonDecode(response.body);
     var classroom = Classroom.fromJson(data);
     return classroom;
+  }
+
+  static Future assignSubjectToClassRoom(int classRoomId, int subjectId) async {
+    Map<String, String> queryparams = {'api_key': 'D5351'};
+    var response = await http.patch(
+      new Uri.https(ApiUrls.BASE_URL,
+          ApiUrls.CLASS_ROOMS + classRoomId.toString(), queryparams),
+      body: {
+        "subject": subjectId.toString(),
+      },
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      encoding: Encoding.getByName('utf-8'),
+    );
+    if (response.statusCode == 200) {}
   }
 }
