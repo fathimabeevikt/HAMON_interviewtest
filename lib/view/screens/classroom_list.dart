@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:interview_test/model/classroom.dart';
 import 'package:interview_test/repositories/classrooms_repository.dart';
+import 'package:interview_test/repositories/students_repository.dart';
 
 import 'classroom_details.dart';
+import 'components/constants.dart';
 
 class ClassroomList extends StatefulWidget {
   final List<Classroom> listofClassrooms;
@@ -18,6 +20,7 @@ class _ClassroomListState extends State<ClassroomList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: kPrimaryColor,
         title: Text("Classroom List"),
       ),
       body: ListView.builder(
@@ -26,36 +29,39 @@ class _ClassroomListState extends State<ClassroomList> {
             int number = index + 1;
             return Card(
               child: ListTile(
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
+                trailing: TextButton(
+                    style: TextButton.styleFrom(primary: kColorgreen),
+                    onPressed: () async {
+                      var classroomdetails =
+                          await ClassroomRepository.fetchClassroomDetails(
+                              widget.listofClassrooms[index].id);
+                      var studentslist =
+                          await StudentRepository.fetchStudents();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ClassroomDetails(
+                                details: classroomdetails,
+                                allStudents: studentslist)),
+                      );
+                    },
+                    child: Text("View details")),
+                title: Row(
+                  children: [
+                    Text(
+                      "$number" + ".",
+                      style: kkTextStyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
                         widget.listofClassrooms[index].name,
-                        style: TextStyle(color: Colors.green, fontSize: 15),
                       ),
-                      TextButton(
-                          onPressed: () async {
-                            var classroomdetails =
-                                await ClassroomRepository.fetchClassroomDetails(
-                                    widget.listofClassrooms[index].id);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ClassroomDetails(
-                                      details: classroomdetails)),
-                            );
-                          },
-                          child: Text("View details"))
-                    ],
-                  ),
-                  title: Text("$number")),
+                    ),
+                  ],
+                ),
+              ),
             );
-            // return ListTile(
-            //     trailing: Text(
-            //       widget.listofClassrooms[index].name,
-            //       style: TextStyle(color: Colors.green, fontSize: 15),
-            //     ),
-            //     title: Text("$number"));
           }),
     );
   }

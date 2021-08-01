@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:interview_test/model/subject.dart';
 import 'package:interview_test/repositories/subjects_repository.dart';
+import 'package:interview_test/view/screens/components/constants.dart';
 import 'package:interview_test/view/screens/subject_details.dart';
 
 class SubjectList extends StatefulWidget {
@@ -18,6 +19,7 @@ class _SubjectListState extends State<SubjectList> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Subject List"),
+        backgroundColor: kPrimaryColor,
       ),
       body: Container(
         child: ListView.builder(
@@ -25,29 +27,34 @@ class _SubjectListState extends State<SubjectList> {
             itemBuilder: (BuildContext context, int index) {
               int number = index + 1;
               return ListTile(
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        widget.listofSubjects[index].name,
-                        style: TextStyle(color: Colors.green, fontSize: 15),
-                      ),
+                  trailing: 
                       TextButton(
-                          onPressed: () async {
-                            var subjectdetails =
-                                await SubjectRepository.fetchSubjectDetails(
-                                    widget.listofSubjects[index].id);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      SubjectDetails(details: subjectdetails)),
-                            );
-                          },
-                          child: Text("View details")),
-                    ],
+                        style: TextButton.styleFrom(primary: kColorgreen),
+                        onPressed: () async {
+                          var subjectdetails =
+                              await SubjectRepository.fetchSubjectDetails(
+                                  widget.listofSubjects[index].id);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SubjectDetails(details: subjectdetails)),
+                          );
+                        },
+                        child: Text("View details"),
+                     
                   ),
-                  title: Text("$number"));
+                  title: Row(
+                    children: [
+                    Text("$number"+".",style: kkTextStyle,),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          widget.listofSubjects[index].name,
+                        ),
+                      ),
+                    ],
+                  ));
             }),
       ),
     );

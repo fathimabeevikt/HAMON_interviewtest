@@ -20,7 +20,8 @@ class _SubjectDetailsState extends State<SubjectDetails> {
     double kWidth = MediaQuery.of(context).size.width;
     double kHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(title: Text("Details"),),
+      appBar: AppBar(title: Text("Details"),
+      backgroundColor: kPrimaryColor,),
       body: Container(
         child: Column(
           //mainAxisAlignment:MainAxisAlignment.center,
