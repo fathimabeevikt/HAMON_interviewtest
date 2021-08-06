@@ -1,4 +1,4 @@
-package com.example.interview_test
+package com.classroom.fathima
 
 import io.flutter.embedding.android.FlutterActivity
 

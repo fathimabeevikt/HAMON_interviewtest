@@ -20,7 +20,7 @@ class _ClassroomListState extends State<ClassroomList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: kPrimaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text("Classroom List"),
       ),
       body: ListView.builder(
@@ -30,7 +30,7 @@ class _ClassroomListState extends State<ClassroomList> {
             return Card(
               child: ListTile(
                 trailing: TextButton(
-                    style: TextButton.styleFrom(primary: kColorgreen),
+                    style: TextButton.styleFrom(primary: Theme.of(context).accentColor),
                     onPressed: () async {
                       var classroomdetails =
                           await ClassroomRepository.fetchClassroomDetails(
@@ -50,7 +50,7 @@ class _ClassroomListState extends State<ClassroomList> {
                   children: [
                     Text(
                       "$number" + ".",
-                      style: kkTextStyle,
+                      style: Theme.of(context).textTheme.headline1,
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),

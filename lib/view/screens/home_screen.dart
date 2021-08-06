@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- 
   @override
   Widget build(BuildContext context) {
     double kWidth = MediaQuery.of(context).size.width;
@@ -33,15 +32,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   width: kWeight,
-                  
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: kPrimaryColor,padding: EdgeInsets.all(20),textStyle: TextStyle(fontSize: 25)),
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        padding: EdgeInsets.all(20),
+                        textStyle: Theme.of(context).textTheme.headline3),
                     onPressed: () async {
                       var students = await StudentRepository.fetchStudents();
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => StudentList(listofStudents:students),)
-                      );
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                StudentList(listofStudents: students),
+                          ));
                     },
                     child: Text("Students"),
                   ),
@@ -52,12 +55,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   width: kWidth,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: kPrimaryColor,padding: EdgeInsets.all(20),textStyle: TextStyle(fontSize: 25)),
-                    onPressed: () async{
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        padding: EdgeInsets.all(20),
+                        textStyle: Theme.of(context).textTheme.headline3),
+                    onPressed: () async {
                       var subjects = await SubjectRepository.fetchSubjects();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => SubjectList(listofSubjects:subjects ,)),
+                        MaterialPageRoute(
+                            builder: (context) => SubjectList(
+                                  listofSubjects: subjects,
+                                )),
                       );
                     },
                     child: Text("Subjects"),
@@ -69,13 +78,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Container(
                   width: kWidth,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: kPrimaryColor,padding: EdgeInsets.all(20),textStyle: TextStyle(fontSize: 25)),
-                    
-                    onPressed: () async{
-                      var classrooms = await ClassroomRepository.fetchClassrooms();
+                    style: ElevatedButton.styleFrom(
+                        primary: Theme.of(context).primaryColor,
+                        padding: EdgeInsets.all(20),
+                        textStyle: Theme.of(context).textTheme.headline3),
+                    onPressed: () async {
+                      var classrooms =
+                          await ClassroomRepository.fetchClassrooms();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ClassroomList(listofClassrooms:classrooms ,)),
+                        MaterialPageRoute(
+                            builder: (context) => ClassroomList(
+                                  listofClassrooms: classrooms,
+                                )),
                       );
                     },
                     child: Text("Class Rooms"),
